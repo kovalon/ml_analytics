@@ -1,0 +1,53 @@
+{% extends 'basic.html' %}
+{% block contentblock %}
+<div style="height: 35rem; width: 35rem;">
+    <h1>Iris analysis page</h1>
+    <canvas id="myChart" width="100px" height="100px"></canvas>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/irisdata');
+
+        xhr.onload = function(e) {
+            alert(xhr.responseText);
+        }
+
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                labels: ['Red', 'BLue', 'Green'],
+                datasets: [{
+                    label: 'virginica',
+                    data: [{x: -10, y: 0}, {x: 1, y:3}, {x: -1, y: -5}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                label: 'the second one',
+                    data: [{x: -8, y: -2}, {x: 12, y:4}, {x: -5, y: 5}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                label: 'the third one',
+                    data: [{x: -10, y: 13}, {x: 3, y:8}, {x: 8, y: -4}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</div>
+{% endblock %}
