@@ -1,35 +1,19 @@
 {% extends 'basic.html' %}
 {% block contentblock %}
 <div class="wrapper">
-    <div class="button-bar">
-        <ul>
-            <li>
-                <button type="button" class="btn btn-primary">sepal length:sepal width</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary">sepal length:petal length</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary">sepal length:petal width</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary">sepal width:petal length</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary">sepal width:petal width</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-primary">petal length:petal width</button>
-            </li>
-        </ul>
-
-<!--        <button type="button" class="btn btn-primary">Главный</button>-->
-<!--        <button type="button" class="btn btn-primary">Главный</button>-->
-<!--        <button type="button" class="btn btn-primary">Главный</button>-->
+    <div class="container" style="margin-top: 5rem; margin-left: 5rem;">
+    <div class="btn-group-vertical">
+        <button type="button" class="btn btn-primary" onclick="slsw()">sepal length:sepal width</button>
+        <button type="button" class="btn btn-primary" onclick="slpl()">sepal length:petal length</button>
+        <button type="button" class="btn btn-primary" onclick="slpw()">sepal length:petal width</button>
+        <button type="button" class="btn btn-primary" onclick="swpl()">sepal width:petal length</button>
+        <button type="button" class="btn btn-primary" onclick="swpw()">sepal width:petal width</button>
+        <button type="button" class="btn btn-primary" onclick="plpw()">petal length:petal width</button>
+    </div>
     </div>
     <div>
         <h1>Iris analysis page</h1>
-        <div style="align-self: center; width: 35rem; height: 35rem;">
+        <div style="align-self: center; width: 32rem; height: 32rem;">
             <canvas id="myChart" width="35rem" height="35rem"></canvas>
         </div>
         <script>
@@ -52,27 +36,28 @@
 
             var ctx = document.getElementById('myChart');
 
-            var myChart = new Chart(ctx, {
+            const graphIt = function (obj, dataset) {
+                var myChart = new Chart(obj, {
                 type: 'scatter',
                 data: {
                     labels: ['Red', 'BLue', 'Green'],
                     datasets: [{
                         label: 'setosa',
-                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(0, 50),
+                        data: dataset.slice(0, 50),
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     },
                     {
                     label: 'versicolor',
-                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(50, 100),
+                        data: dataset.slice(50, 100),
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
                     },
                     {
                     label: 'virginica',
-                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(100, 150),
+                        data: dataset.slice(100, 150),
                         backgroundColor: 'rgba(0, 227, 73, 0.2)',
                         borderColor: 'rgba(0, 227, 73, 1)',
                         borderWidth: 1
@@ -88,6 +73,34 @@
                     }
                 }
             });
+            }
+
+            graphIt(ctx, data['dataset'][0]['sepal length (cm):sepal width (cm)']);
+
+            const slsw = function () {
+                graphIt(ctx, data['dataset'][0]['sepal length (cm):sepal width (cm)']);
+            }
+
+            const slpl = function () {
+                graphIt(ctx, data['dataset'][1]['sepal length (cm):petal length (cm)']);
+            }
+
+            const slpw = function () {
+                graphIt(ctx, data['dataset'][2]['sepal length (cm):petal width (cm)']);
+            }
+
+            const swpl = function () {
+                graphIt(ctx, data['dataset'][3]['sepal width (cm):petal length (cm)']);
+            }
+
+            const swpw = function () {
+                graphIt(ctx, data['dataset'][4]['sepal width (cm):petal width (cm)']);
+            }
+
+            const plpw = function () {
+                graphIt(ctx, data['dataset'][5]['petal length (cm):petal width (cm)']);
+            }
+
         </script>
     </div>
     <div class="count-bar">
