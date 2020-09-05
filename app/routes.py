@@ -17,5 +17,5 @@ def iris():
 @app.route('/irisdata')
 def iris_data():
     dataset = MlModels.iris()
-    return jsonify({'dataset': dataset['data'].tolist(),
-                    'target': dataset['target'].tolist()})
+    result = MlModels.get_all_objects(dataset=dataset['data'].tolist(), features=dataset['feature_names'])
+    return jsonify({'dataset': result})

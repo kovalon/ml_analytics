@@ -1,0 +1,17 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 4fr 2fr;
+ }
+
+ .button-bar {
+     align-items: center;
+     top: 50%;
+     display: list-item;
+ }
+
+ ul {
+     display: none;
+     margin: 1rem;
+     border: 1rem;
+     padding: 1rem;
+ }

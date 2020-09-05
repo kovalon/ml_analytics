@@ -1,53 +1,97 @@
 {% extends 'basic.html' %}
 {% block contentblock %}
-<div style="height: 35rem; width: 35rem;">
-    <h1>Iris analysis page</h1>
-    <canvas id="myChart" width="100px" height="100px"></canvas>
-    <script>
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/irisdata');
+<div class="wrapper">
+    <div class="button-bar">
+        <ul>
+            <li>
+                <button type="button" class="btn btn-primary">sepal length:sepal width</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary">sepal length:petal length</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary">sepal length:petal width</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary">sepal width:petal length</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary">sepal width:petal width</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary">petal length:petal width</button>
+            </li>
+        </ul>
 
-        xhr.onload = function(e) {
-            alert(xhr.responseText);
-        }
+<!--        <button type="button" class="btn btn-primary">Главный</button>-->
+<!--        <button type="button" class="btn btn-primary">Главный</button>-->
+<!--        <button type="button" class="btn btn-primary">Главный</button>-->
+    </div>
+    <div>
+        <h1>Iris analysis page</h1>
+        <div style="align-self: center; width: 35rem; height: 35rem;">
+            <canvas id="myChart" width="35rem" height="35rem"></canvas>
+        </div>
+        <script>
+            var data;
 
-        var ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                labels: ['Red', 'BLue', 'Green'],
-                datasets: [{
-                    label: 'virginica',
-                    data: [{x: -10, y: 0}, {x: 1, y:3}, {x: -1, y: -5}],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                },
-                {
-                label: 'the second one',
-                    data: [{x: -8, y: -2}, {x: 12, y:4}, {x: -5, y: 5}],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                },
-                {
-                label: 'the third one',
-                    data: [{x: -10, y: 13}, {x: 3, y:8}, {x: 8, y: -4}],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false
-                        }
-                    }]
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/irisdata', false);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) {
+                    return
+                }
+                if (xhr.status === 200) {
+                    data = JSON.parse(xhr.responseText);
+                } else {
+                    console.log('err', xhr.responseText)
                 }
             }
-        });
-    </script>
+            xhr.send();
+
+            var ctx = document.getElementById('myChart');
+
+            var myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    labels: ['Red', 'BLue', 'Green'],
+                    datasets: [{
+                        label: 'setosa',
+                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(0, 50),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                    label: 'versicolor',
+                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(50, 100),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                    label: 'virginica',
+                        data: data['dataset'][0]['sepal length (cm):sepal width (cm)'].slice(100, 150),
+                        backgroundColor: 'rgba(0, 227, 73, 0.2)',
+                        borderColor: 'rgba(0, 227, 73, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+    <div class="count-bar">
+        This is count bar
+    </div>
 </div>
 {% endblock %}
